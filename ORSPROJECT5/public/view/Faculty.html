@@ -1,0 +1,211 @@
+
+<style>
+    .form
+    {
+        
+        text-align: left;
+    }
+</style>
+
+    <div class="container">
+
+    <div>
+        <H2>Faculty </H2>
+    </div>
+
+    <div class="alert alert-danger" ng-show="searchForm.show">
+        {{searchForm.message}}
+    </div>
+
+    <div class="form-group row">
+        <div class="col-lg-3">
+            <select class="form-control" type="text" ng-model="searchForm.courseId" ng-options="cl.id as cl.name for cl in clist">
+                    <option value="">---------Select Course---------</option>
+                </select>
+
+                
+        </div>
+        <div class="col-lg-3">
+                <select class="form-control" type="text" ng-model="searchForm.subjectId" ng-options="cl.id as cl.name for cl in slist">
+                        <option value="">---------Select Subject---------</option>
+                        </select>
+        </div>
+       
+        <div class="col-lg-1">
+            <button class="btn btn-primary" ng-click="search()" style="width: 100px;">Search
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-success " style="width: 100px; margin-left: 345px;" data-target="#update" data-toggle="modal" ng-show="role=='Admin'|| role=='College'" ng-click="display()">Add
+                <i class="fas fa-plus-circle"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-sm table-bordered table-hover table-responsive-sm">
+                <thead class="thead-dark">
+                    <th scope="row">S.NO.</th>
+                    <!-- <th scope="row">Course ID
+                    </th> -->
+                    <th scope="row">COURSE NAME
+                    </th>
+                    <!-- <th scope="row">Subject ID
+                    </th> -->
+                    <th scope="row">SUBJECT NAME
+                    </th>
+                    <th scope="row">FIRST NAME
+                    </th>
+                    <th scope="row">LAST NAME
+                    </th>
+                    <th scope="row">DOB
+                    </th>
+                    <th scope="row">EMAIL ID
+                    </th>
+                    <th scope="row">MOBILE NO</th>
+                    <th scope="row" ng-show="role=='Admin'|| role=='College'">ACTION</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="data in list">
+                        <td>{{$index+1}}</td>
+                        <!-- <td>{{data.courseId}}</td> -->
+                        <td>{{data.courseName}}</td>
+                        <!-- <td>{{data.subjectId}}</td> -->
+                        <td>{{data.subjectName}}</td>
+                        <td>{{data.firstName}}</td>
+                        <td>{{data.lastName}}</td>
+                        <td>{{data.dob | date : "y/MM/dd"}}</td>
+                        <td>{{data.email}}</td>
+                        <td>{{data.mobileNo}}</td>
+                        
+
+                        <td ng-show="role=='Admin'|| role=='College'">
+                            <button type="button" ng-click="display(data.id)" data-target="#update" data-toggle="modal" class="btn btn-primary">
+                                <i class="fas fa-edit">
+                                </i>
+                            </button>
+                            <button type="button" ng-click="delete(data.id)" ng-confirm-click="Are you sure?" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document" style="border: 3px solid #f1f1f1; border-radius: 10px;">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Faculty Information</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <form class="form" name="studentForm" ng-submit="submit()">
+                        <div class="alert alert-danger" ng-show="form.show && !form.success">
+                            {{form.message}}
+                        </div>
+                        <div class="alert alert-success" ng-show="form.show && form.success">
+                            {{form.message}}
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">First Name<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="firstName" id="firstName" ng-pattern="/^[a-zA-Z]{3,15}$/" ng-class="{'is-invalid':studentForm.firstName.$error.required && studentForm.firstName.$touched}" placeholder="Enter First Name" ng-model="form.firstName" required>
+                                    <span class="form-text text-danger" ng-show="studentForm.firstName.$error.required && studentForm.firstName.$touched " id="firstName">First Name is required.</span>
+                                    <span class="form-text text-danger" id="firstName" ng-show="studentForm.firstName.$error.pattern">First Name is invalid.</span>                                     
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Last Name<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="lastName" ng-pattern="/^[a-zA-Z]{3,15}$/" ng-class="{'is-invalid':studentForm.lastName.$error.required && studentForm.lastName.$touched}" placeholder="Enter Last Name" ng-model="form.lastName" required>
+                                    <span class="form-text text-danger" ng-show="studentForm.lastName.$error.required && studentForm.lastName.$touched " id="lastName">Last Name is required.</span>
+                                        <span class="form-text text-danger" id="lastName" ng-show="studentForm.lastName.$error.pattern">Last Name is invalid.</span>                                     
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Course<font color="red">*</font></label>
+                                <div class="col-lg-9">
+                                    <select class="form-control" name="course" id="course" ng-class="{'is-invalid':studentForm.course.$error.required && studentForm.course.$touched}" ng-model="form.courseId" ng-options="c.id as c.name for c in clist" required>
+                                        <option value="">------------select------------</option>
+                                    </select>
+                                    <span class="form-text text-danger" ng-show="studentForm.course.$error.required && studentForm.course.$touched " id="course">Course Name is required.</span>
+                                </div>
+                            </div>
+
+                             <div class="form-group row">
+                                            <label class="col-lg-3 form-control-label">Subject<font color="red">*</font></label>
+                                            <div class="col-lg-9">
+                                                <select class="form-control" name="subject" id="subject" ng-class="{'is-invalid':studentForm.subject.$error.required && studentForm.subject.$touched}" ng-model="form.subjectId" ng-options="s.id as s.name for s in slist" required>
+                                                    <option value="">------------select------------</option>
+                                                </select>
+                                                <span class="form-text text-danger" ng-show="studentForm.subject.$error.required && studentForm.subject.$touched " id="subject">Subject Name is required.</span>
+                                            </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Date Of Birth<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <datepicker date-format="y-MM-dd">
+                                        <input style="cursor: pointer" name="dob" type="text" id="dob" ng-class="{'is-invalid':studentForm.dob.$error.required && studentForm.dob.$touched}" ng-model="form.dob" class="form-control" placeholder="YYYY-MM-DD" readonly required
+                                        />
+                                    </datepicker>
+                                    <span class="form-text text-danger" ng-show="studentForm.dob.$error.required && studentForm.dob.$touched " id="dob">DOB is required.</span>
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Email<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="email" name="email" id="email" ng-pattern="/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/" ng-class="{'is-invalid':studentForm.email.$error.required && studentForm.email.$touched}" ng-disabled="form.id>0" placeholder="Enter Email ID" ng-model="form.email" required>
+                                    <span  ng-show="studentForm.email.$error.pattern" class="form-text text-danger">Email Id is invalid</span>
+                                    <span ng-show="studentForm.email.$error.required && studentForm.email.$touched" class="form-text text-danger">Email Id is required!</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Mobile<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="mobileNo" id="mobileNo" ng-pattern="/^[7-9][0-9]{9}$/" ng-class="{'is-invalid':studentForm.mobileNo.$error.required && studentForm.mobileNo.$touched}" ng-maxlength="10" type="text" placeholder="Enter Mobile No" ng-model="form.mobileNo" required>
+                                    <span  ng-show="studentForm.mobileNo.$error.pattern" class="form-text text-danger">Mobile Number is invalid</span>
+                                    <span ng-show="studentForm.mobileNo.$error.required && studentForm.mobileNo.$touched" id="mobileNo" class="form-text text-danger">Mobile No.is required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <center>
+                                    <div class="col-lg-12">
+                                        <button type="submit" class="btn btn-primary form-control" ng-disabled="studentForm.$invalid && studentForm.$error" ng-hide="form.id>0" style="width: 100px; margin-left: 140px; ">Save
+                                            <span class="fas fa-paper-plane"></span>
+                                        </button>
+                                        <button type="submit" class="btn btn-primary form-control" ng-show="form.id>0" style="margin-left: 190px; width: 100px;">Update
+                                                <span class="fas fa-paper-plane"></span>
+                                        </button>
+                                        <button type="reset" class="btn btn-primary form-control" ng-hide="form.id>0" style="width: 100px;">Reset
+                                        </button>
+                                        
+                                    </div>
+                                    </center>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <button class="btn btn-primary" style="margin-left: 15px; width: 100px;" ng-disabled="previousDisable()" ng-click="previous()">
+            Previous
+        </button>
+        <button class="btn btn-primary" style="margin-left: 910px; width: 100px;" ng-disabled="nextDisable()" ng-click="next()">
+                Next
+        </button>
+    </div>
+</div>

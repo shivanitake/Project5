@@ -1,0 +1,166 @@
+<style>
+    .form
+    {
+        
+        text-align: left;
+    }
+    
+</style>
+
+<div class="container">
+    
+<div>
+    <H2>Marksheet</H2>
+</div>
+<div class="alert alert-danger" ng-show="searchForm.show">
+    {{searchForm.message}}
+</div>
+
+<div class="form-group row">
+        <div class="col-lg-3">
+                <select class="form-control" ng-model="searchForm.studentId" ng-options="s.id as s.firstName+' '+s.lastName for s in slist">
+                    <option value="">--------Select Student---------</option>
+                </select>
+            
+        </div>
+    <div class="col-lg-3">
+        <input class="form-control" type="text" ng-model="searchForm.rollNo" placeholder="RollNo">
+    </div>
+    
+    <div class="col-lg-1">
+        <button class="btn btn-primary" ng-click="search()" style="width: 100px;">Search
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+    <div class="col-lg-1">
+        <button class="btn btn-success " data-target="#update" style="width: 100px; margin-left: 345px;" data-toggle="modal" ng-show="role=='Admin'|| role=='Faculty'|| role=='College'" ng-click="display()">Add
+            <i class="fas fa-plus-circle"></i>
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-sm table-bordered table-hover table-responsive-sm">
+            <thead class="thead-dark">
+                <th scope="row">S.NO.</th>
+                <th scope="row">ROLL NO</th>
+                <th scope="row">NAME</th>
+                <th scope="row">PHYSICS</th>
+                <th scope="row">CHEMISTRY</th>
+                <th scope="row">MATHS</th>
+                <th scope="row" ng-show="role=='Admin'|| role=='Faculty'|| role=='College'">ACTION</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="data in list">
+                    <td>{{$index+1}}</td>
+                    <td>{{data.rollNo}}</td>
+                    <td>{{data.name}}</td>
+                    <td>{{data.physics}}</td>
+                    <td>{{data.chemistry}}</td>
+                    <td>{{data.maths}}</td>
+                    <td ng-show="role=='Admin'|| role=='Faculty'|| role=='College'">
+                        <button type="button" ng-click="display(data.id)" data-target="#update" data-toggle="modal" class="btn btn-primary">
+                            <i class="fas fa-edit">
+                            </i>
+                        </button>
+                        <button type="button" ng-click="delete(data.id)" ng-confirm-click="Are you sure?" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                    </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="border: 3px solid #f1f1f1; border-radius: 10px;">
+            <div class="modal-content">
+
+                <div class="modal-header text-center">
+                    <h4 class="modal-title ">Marksheet Information</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form class="form" name="marksheetForm" ng-submit="submit()" novalidate>
+                    <div class="alert alert-danger" ng-show="form.show && !form.success">
+                        {{form.message}}
+                    </div>
+                    <div class="alert alert-success" ng-show="form.show && form.success">
+                        {{form.message}}
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="col-lg-3 form-control-label">Roll No<font color="red">*</font> </label>
+                            <div class="col-lg-9">
+                                <input class="form-control" type="text" name="rollNo" ng-pattern="/^([0-9]{2}[a-zA-Z]{2}[0-9]{2})$/" ng-class="{'is-invalid':marksheetForm.rollNo.$error.required && marksheetForm.rollNo.$touched}" ng-disabled="form.id>0" placeholder="Enter RollNo" ng-model="form.rollNo" required>
+                                <span class="form-text text-danger" ng-show="marksheetForm.rollNo.$error.required && marksheetForm.rollNo.$touched" >RollNo is required.</span>
+                                <span class="form-text text-danger" ng-show="marksheetForm.rollNo.$error.pattern">RollNo is invalid.</span> 
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Student<font color="red">*</font></label>
+                            <div class="col-lg-9">
+                                <select class="form-control" ng-model="form.studentId" name="name" ng-class="{'is-invalid':marksheetForm.name.$error.required && marksheetForm.name.$touched}" ng-options="s.id as s.firstName+' '+s.lastName for s in slist" required>
+                                    <option value="">------------select------------</option>
+                                </select>
+                                <span class="form-text text-danger" ng-show="marksheetForm.name.$error.required && marksheetForm.name.$touched" >Student Name is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 form-control-label">Physics<font color="red">*</font></label>
+                            <div class="col-lg-9">
+                                <input class="form-control" type="number" name="physics" ng-class="{'is-invalid':marksheetForm.physics.$error.required && marksheetForm.physics.$touched}" placeholder="Enter Physics Marks" ng-model="form.physics" required>
+                                <span class="form-text text-danger" ng-show="marksheetForm.physics.$error.required && marksheetForm.physics.$touched" >Marks is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 form-control-label">Chemistry<font color="red">*</font></label>
+                            <div class="col-lg-9">
+                                <input class="form-control" type="number" name="chemistry" ng-class="{'is-invalid':marksheetForm.chemistry.$error.required && marksheetForm.chemistry.$touched}" placeholder="Enter Chemistry Marks" ng-model="form.chemistry" required>
+                                <span class="form-text text-danger" ng-show="marksheetForm.chemistry.$error.required && marksheetForm.chemistry.$touched" >Marks is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 form-control-label">Maths<font color="red">*</font></label>
+                            <div class="col-lg-9">
+                                <input class="form-control" type="number" name="maths" ng-class="{'is-invalid':marksheetForm.maths.$error.required && marksheetForm.maths.$touched}" placeholder="Enter Maths Marks" ng-model="form.maths" required>
+                                <span class="form-text text-danger" ng-show="marksheetForm.maths.$error.required && marksheetForm.maths.$touched" >Marks is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <center>
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-primary form-control" ng-disabled="marksheetForm.$invalid && marksheetForm.$error" ng-hide="form.id>0" style="width: 100px; margin-left: 130px;">Save
+                                    <span class="fas fa-paper-plane"></span>
+                                </button>
+                                <button type="submit" class="btn btn-primary form-control" ng-show="form.id>0" style="margin-left: 190px; width: 100px;">Update
+                                        <span class="fas fa-paper-plane"></span>
+                                </button>
+                                <button type="reset" class="btn btn-primary form-control" ng-hide="form.id>0" style="width: 100px;">Reset
+                                </button>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div>
+        <button class="btn btn-primary" style="margin-left: 15px; width: 100px;"  ng-disabled="previousDisable()" ng-click="previous()">
+            Previous
+        </button>
+        <button class="btn btn-primary" style="margin-left: 907px; width: 100px;" ng-disabled="nextDisable()" ng-click="next()">
+                Next
+        </button>
+    </div>
+    
+</div>
+</div>
+</center>

@@ -1,0 +1,145 @@
+
+
+
+<style>
+     .form
+    {
+        
+        text-align: left;
+    } 
+</style>
+<div class="container">
+    <div>
+        <H2 >Role</H2>
+    </div>
+
+    <div class="alert alert-danger" ng-show="searchForm.show">
+        {{searchForm.message}}
+    </div>
+
+    <div class="form-group row">
+
+        <div class="col-lg-3" >
+            <select class="form-control" ng-model="searchForm.id" ng-options="r.id as r.name for r in roleList">
+                <option value="">---------Select Role---------</option>
+            </select>
+        </div>
+        <div class="col-lg-3" >
+            <input class="form-control" type="text" ng-model="searchForm.description" placeholder="Description">
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-primary" style="width: 100px;" ng-click="search()">Search
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-success " data-target="#update" style="width: 100px; margin-left: 345px;" data-toggle="modal" ng-click="display()">Add
+                <i class="fas fa-plus-circle"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-sm table-bordered table-hover table-responsive-sm">
+                <thead class="thead-dark">
+                    <th scope="row">S.NO.</th>
+                    <th scope="row">ROLE
+                    </th>
+                    <th scope="row">DESCRIPTION
+                    </th>
+                    <th scope="row">ACTION</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="data in list">
+                        <td>{{$index+1}}</td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.description}}</td>
+                        <td>
+                            <button type="button" ng-click="display(data.id)" data-target="#update" data-toggle="modal" class="btn btn-primary">
+                                <i class="fas fa-edit">
+                                </i>
+                            </button>
+                            <button type="button" ng-click="delete(data.id)" ng-confirm-click="Are you sure?" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                        </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document" style="border: 3px solid #f1f1f1; border-radius: 10px;">
+                <div class="modal-content">
+
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title ">Role Information</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <form class="form" name="roleForm" ng-submit="submit()" novalidate>
+
+                        <div class="alert alert-danger" ng-show="form.show && !form.success">
+                            {{form.message}}
+                        </div>
+                        <div class="alert alert-success" ng-show="form.show && form.success">
+                            {{form.message}}
+                        </div>
+                        <div class="modal-body" >
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Name<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" id="name" placeholder="Enter Role Name" ng-pattern="/^[a-zA-Z]{2,15}$/" ng-class="{'is-invalid':roleForm.name.$error.required && roleForm.name.$touched}" ng-minlength="3" ng-maxlength="8" name="name" ng-model="form.name" required>
+                                    <span class="form-text text-danger" ng-show="roleForm.name.$error.required && roleForm.name.$touched " id="name">Role Name is required.</span>
+                                    <span class="form-text text-danger" id="name" ng-show="roleForm.name.$error.pattern">Role Name is invalid.</span> 
+                                    <!-- <small ng-show="roleForm.name.$error.required && roleForm.name.$touched " id="name" class="form-text text-danger">Role name is required.</small> -->
+                                </div>
+                                
+                                
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Description<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <textarea class="form-control" type="text" name="description" id="description" ng-class="{'is-invalid':roleForm.description.$error.required && roleForm.description.$touched}" ng-pattern="" ng-minlength="5" ng-maxlength="15" placeholder="Enter Description" ng-model="form.description" required></textarea>
+                                    <!-- <input class="form-control" type="text" name="description" id="description" ng-class="{'is-invalid':roleForm.description.$error.required && roleForm.description.$touched}" ng-pattern="" ng-minlength="5" ng-maxlength="15" placeholder="Enter Description" ng-model="form.description" required> -->
+                                    <span class="form-text text-danger" ng-show="roleForm.description.$error.required && roleForm.description.$touched" id="description">Description is required.</span>
+                                    <span class="form-text text-danger" id="description" ng-show="roleForm.description.$error.minlength">Description is too short.</span>
+                                    <span class="form-text text-danger" id="description" ng-show="roleForm.description.$error.maxlength">Description is too long.</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                            <center>
+                                <div>
+                                    <button type="submit" class="btn btn-primary form-control" ng-hide="form.id>0" ng-disabled="roleForm.$invalid && roleForm.$error" style="width: 100px;margin-left: 150px;">Save
+                                        <span class="fas fa-paper-plane"></span>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary form-control" ng-show="form.id>0" style="margin-left: 190px; width: 100px;">Update
+                                        <span class="fas fa-paper-plane"></span>
+                                </button>
+                                    <button type="reset" class="btn btn-primary form-control" ng-hide="form.id>0" style="width: 100px;">Reset
+                                    </button>
+                                                                        
+                                </div>
+                            </center>        
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div>
+            <button class="btn btn-primary" style="margin-left: 15px; width: 100px;" ng-disabled="previousDisable()" ng-click="previous()">
+                Previous
+            </button>
+            <button class="btn btn-primary" style="margin-left: 907px; width: 100px;" ng-disabled="nextDisable()" ng-click="next()">
+                Next
+            </button>
+        </div>
+    </div>
+</div>

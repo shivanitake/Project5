@@ -1,0 +1,175 @@
+<style>
+    .form
+    {
+        text-align: left;
+    }
+    
+</style>
+<div class="container">
+
+<div>
+    <H2>Timetable</H2>
+</div>
+
+<div class="alert alert-danger" ng-show="searchForm.show">
+    {{searchForm.message}}
+</div>
+
+<div class="form-group row">
+    <div class="col-lg-3"> 
+        <select class="form-control" ng-model="searchForm.courseId" ng-options="c.id as c.name for c in clist">
+            <option value="">---------Select Course---------</option>
+        </select>
+    </div>
+    <div class="col-lg-3">
+        <select class="form-control" ng-model="searchForm.subjectId" ng-options="s.id as s.name for s in slist">
+            <option value="">---------Select Subject---------</option>
+        </select>
+    </div>
+    <div class="col-lg-1">
+        <button class="btn btn-primary" style="width: 100px;" ng-click="search()">Search
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+    <div class="clg-lg-1">
+        <button class="btn btn-success " style="width: 100px; margin-left: 360px;" data-target="#update" data-toggle="modal" ng-show="role=='Admin'|| role=='College'|| role=='Faculty'" ng-click="display()">Add
+            <i class="fas fa-plus-circle"></i>
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-sm table-bordered table-hover table-responsive-sm">
+            <thead class="thead-dark">
+                <th scope="row">S.NO</th>
+                
+                <th scope="row">COURSE NAME</th>
+                <th scope="row">SEMESTER</th>
+                <th scope="row">SUBJECT NAME</th>
+                <th scope="row">EXAM DATE</th>
+                <th scope="row">EXAM TIME</th>
+                <th scope="row" ng-show="role=='Admin'|| role=='College'">ACTION</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="data in list">
+                    <td>{{$index+1}}</td>
+                    <td>{{data.courseName}}</td>
+                    <td>{{data.semester}}</td>
+                    <td>{{data.subjectName}}</td>
+                    <td>{{data.examDate}}</td>
+                    <td>{{data.examTime}}</td>
+                    
+
+                    <td ng-show="role=='Admin'|| role=='College'">
+                        <button type="button" ng-click="display(data.id)" data-target="#update" data-toggle="modal" class="btn btn-primary">
+                            <i class="fas fa-edit">
+                            </i>
+                        </button>
+                        <button type="button" ng-click="delete(data.id)" ng-confirm-click="Are you sure?" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="border: 3px solid #f1f1f1; border-radius: 10px;">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Timetable Information</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                <form class="form" name="timetableForm" ng-submit="submit()" novalidate>
+                    <div class="alert alert-danger" ng-show="form.show && !form.success">
+                        {{form.message}}
+                    </div>
+                    <div class="alert alert-success" ng-show="form.show && form.success">
+                        {{form.message}}
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="col-lg-3 form-control-label">Course<font color="red">*</font> </label>
+                            <div class="col-lg-9">
+                                <select class="form-control"  name="course" id="course" ng-class="{'is-invalid':timetableForm.course.$error.required && timetableForm.course.$touched}" ng-model="form.courseId" ng-options="c.id as c.name for c in clist" required>
+                                        <option value="">------------select------------</option>
+                                </select>
+                                <span class="form-text text-danger" ng-show="timetableForm.course.$error.required && timetableForm.course.$touched " id="course">Course Name is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 form-control-label">Subject<font color="red">*</font> </label>
+                            <div class="col-lg-9">
+                                <select class="form-control" name="subject" id="subject" ng-class="{'is-invalid':timetableForm.subject.$error.required && timetableForm.subject.$touched}" ng-model="form.subjectId" ng-options="s.id as s.name for s in slist" required>
+                                        <option value="">------------select------------</option>
+                                </select>
+                                <span class="form-text text-danger" ng-show="timetableForm.subject.$error.required && timetableForm.subject.$touched " id="subject">Subject Name is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 form-control-label">Semester<font color="red">*</font> </label>
+                            <div class="col-lg-9">
+                                <select class="form-control" ng-model="form.semester" name="semester" id="semester" ng-class="{'is-invalid':timetableForm.semester.$error.required && timetableForm.semester.$touched}" required>
+                                        <option value="">------------select------------</option>
+                                    <option ng-repeat="s in semester" value="{{s.code}}">{{s.name}}</option>
+                                </select>
+                                <span class="form-text text-danger" ng-show="timetableForm.semester.$error.required && timetableForm.semester.$touched " id="subject">Semester is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 form-control-label">Exam Date<font color="red">*</font> </label>
+                            <div class="col-lg-9">
+                                <datepicker date-format="y-MM-dd">
+                                    <input style="cursor: pointer" type="text" name="examDate" id="examDate" ng-class="{'is-invalid':timetableForm.examDate.$error.required && timetableForm.examDate.$touched}" ng-model="form.examDate" class="form-control" placeholder="DD-MM-YYYY" readonly required/>
+                                </datepicker>
+                                <span class="form-text text-danger" ng-show="timetableForm.examDate.$error.required && timetableForm.examDate.$touched " id="examDate">Exam Date is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 form-control-label">Exam Time<font color="red">*</font> </label>
+                            <div class="col-lg-9">
+                                <select class="form-control" ng-model="form.examTime" name="examTime" id="examTime" ng-class="{'is-invalid':timetableForm.examTime.$error.required && timetableForm.examTime.$touched}" required>
+                                    <option value="">------------select------------</option>
+                                    <option ng-repeat="t in examTime" value="{{t.code}}">{{t.name}}</option>
+                                </select>
+                                <span class="form-text text-danger" ng-show="timetableForm.examTime.$error.required && timetableForm.examTime.$touched " id="examTime">Exam Time is required.</span>
+                            </div>
+                        
+                        <div class="form-group row">
+                            <center>
+                                <div>
+                                    <button type="submit" class="btn btn-primary form-control" ng-disabled="ttForm.$invalid && ttForm.$error" ng-hide="form.id>0" style="margin-top: 20px; width: 100px; margin-left: 160px; ">Save
+                                        <span class="fas fa-paper-plane"></span>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary form-control" ng-show="form.id>0" style="margin-left: 200px; margin-top: 20px; width: 100px;">Update
+                                            <span class="fas fa-paper-plane"></span>
+                                    </button>
+                                    <button type="reset" class="btn btn-primary form-control" ng-hide="form.id>0" style="margin-top: 20px; width: 100px;">Reset
+                                    </button>
+                                                        
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div>
+        <button class="btn btn-primary" style="margin-left: 29px; width: 100px;" ng-disabled="previousDisable()" ng-click="previous()">
+            Previous
+        </button>
+        <button class="btn btn-primary" style="margin-left: 907px; width: 100px;" ng-disabled="nextDisable()" ng-click="next()">
+                Next
+        </button>
+    </div>
+    
+</div>
+</div>

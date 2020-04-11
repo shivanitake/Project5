@@ -1,0 +1,68 @@
+<div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+        </button>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li><a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Dashboard"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> <b>
+                </b> </a></li>
+            
+            <li ng-show="sessionCheck &amp;&amp; !enquiryCheck" class=""><a href="#/MyProfile"><span class="fa fa-graduation-cap" aria-hidden="true"></span> <b> My Profile</b></a></li>
+            <li ng-show="sessionCheck &amp;&amp; !enquiryCheck" class="dropdown"><a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-shield" aria-hidden="true"></span> <b> SERVICES</b> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#/Application">Application</a></li>
+                    <li><a href="#/Timesheet">Timesheet</a></li>
+                    <li><a href="#/UserMessage">Message Box</a></li>
+                    <li><a href="#/InterviewStatus">Interview Status</a></li>
+                    <li class="dropdown-submenu"><a tabindex="-1" href="">Feedback</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#/StudentFeedback">Feedback Form</a></li>
+                            <li><a href="#/StudentFeedbackMaster">Student Feedbacks</a></li>+
+                        </ul></li>
+                    <li><a href="#/StudentReferral">Student Referral</a></li>
+                    <li><a href="#/TaskList">My Task</a></li>
+                    <li><a href="#/Channel">Channel</a></li>
+                </ul></li>
+            <li ng-show="sessionCheck" class="dropdown"><a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> <b>
+                        TUTORIAL</b> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#/Blog">Blogs</a></li>
+                    <li><a href="#/Site">Sites</a></li>
+                </ul></li>
+            <li ng-show="sessionCheck" class="dropdown"><a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> <b>
+                        ONLINE TEST</b> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#/Test">My Tests</a></li>
+                    <li><a href="#/OnlineTestResult">My Test Result</a></li>
+                </ul></li>
+
+            
+        </ul>
+        
+        <ul ng-show="sessionCheck" class="nav navbar-nav navbar-right">
+            
+            <li ng-show="sessionCheck &amp;&amp; !enquiryCheck" class=""><a href="#/UserMessage" title="Message Box"><b class="ng-binding">(0)</b>
+                    <span class="glyphicon glyphicon-bell" aria-hidden="true"></span></a></li>
+            
+            <li class="dropdown pull-right"><a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><b>
+                        Ritika<span class="caret"></span>
+                </b></a>
+                <ul class="dropdown-menu">
+                    <li><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Student</a></li>
+                    <li><a href="#/EditMyProfile"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                            My Profile</a></li>
+                    <li><a href="#/ChangePassword"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                            Change Password</a></li>
+                    <li><a href="#/Logout" ng-click="logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                            Logout</a></li>
+                </ul></li>
+        </ul>
+        
+        <ul ng-hide="sessionCheck" class="nav navbar-nav navbar-right ng-hide">
+            <li><a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/UserRegistration"><span class="fa fa-user-plus" aria-hidden="true"></span> <b> User Registration</b></a></li>
+            <li><a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Login"><span class="fa fa-sign-in" aria-hidden="true"></span> <b> Login</b></a></li>
+        </ul>
+    </div>
+</div>

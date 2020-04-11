@@ -1,0 +1,148 @@
+<!--Boot strap require jQuery library-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+<!--Used for icon-->
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+<!--Angular JS Library-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+
+<!--Date Picker library-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-datepicker/2.1.23/angular-datepicker.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-datepicker/2.1.23/angular-datepicker.js"></script>
+
+<script src="./js/app.js"></script>
+<script src="./js/BaseCtl.js"></script>
+<script src="./js/UserCtl.js"></script>
+<script src="./js/RoleCtl.js"></script>
+<script src="./js/MarksheetCtl.js"></script>
+<script src="./js/GetMarksheetCtl.js"></script>
+<script src="./js/StudentCtl.js"></script>
+<script src="./js/CollegeCtl.js"></script>
+<script src="./js/MenuCtl.js"></script>
+<script src="./js/LoginCtl.js"></script>
+<script src="./js/MyProfileCtl.js"></script>
+<script src="./js/ChangePasswordCtl.js"></script>
+<script src="./js/MeritListCTL.js"></script>
+<script src="./js/ForgotPasswordCtl.js"></script>
+<script src="./js/UserRegistrationCtl.js"></script>
+<script src="./js/CourseCtl.js"></script>
+<script src="./js/SubjectCtl.js"></script>
+<script src="./js/FacultyCtl.js"></script>
+<script src="./js/TimeTableCtl.js"></script>
+
+<body ng-app="myApp" ng-controller="menuCtl">
+
+
+        <!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Dashboard"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> <b>
+                        </b> </a></li>
+                    
+                </ul>
+                
+                <ul ng-hide="sessionCheck" class="nav navbar-nav navbar-right">
+                    <li><a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/UserRegistration"><span class="fa fa-user-plus" aria-hidden="true"></span> <b> User Registration</b></a></li>
+                    <li><a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Login"><span class="fa fa-sign-in" aria-hidden="true"></span> <b> Login</b></a></li>
+                </ul>
+            </div> -->
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <a class="navbar-brand" href="#">NCS</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+
+                <li class="nav-item" ng-repeat="bar in menubar">
+                        <a class="nav-link" href="{{bar.link}}">{{bar.text}}</a>
+                </li>
+
+            </ul>    
+                
+            
+                
+
+            <ul class="nav navbar-nav navbar-right">
+               
+                  
+                        
+                   
+                <li class="nav-item dropdown" ng-if="name">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{name}} 
+                        
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#!login">Logout</a>
+                        <a class="dropdown-item" href="#!changePassword">Change Password</a>
+                        <a class="dropdown-item" href="#!profile">Edit Profile</a>
+                    </div>
+
+
+                </li>
+                
+              
+               <li class="nav-item">
+               <img  class="rounded-circle"   ng-if="name" height="40px"  src="User/getPic/{{id}}">
+               </li>
+               
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <div ng-view></div>
+
+    <body>
+        <footer style="padding-top:65px;">
+           
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom">
+
+                
+
+
+                    <div class="collapse navbar-collapse" id="navbarToggler">
+                        <ul class="navbar-nav mr-auto mt-1 mt-lg-0">
+            
+                            
+                            <li class="nav-item active" style="padding-left:630px;">
+                                <a class="nav-link" href="http://nenosystems.in/NCS/#/" >Copyright
+                                    &#169; NCS^ Pvt. Ltd. </a>
+                            </li>
+            
+                            
+            
+                        </ul>    
+                            
+                        
+                            
+            
+                      
+                    </div>
+                </nav>
+            
+            
+            </footer>
+    </body>
+    
+
+   
+</body>
+
+
+
+
+

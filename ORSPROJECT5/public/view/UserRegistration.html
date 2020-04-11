@@ -1,0 +1,105 @@
+<center>
+<div class="container">
+<div class="col-sm-8">
+    <div class="card" style="border: 3px solid #f1f1f1; width: 800px;">
+        <div class="card-header ">
+            <h2>Register</h2>
+        </div>
+        
+            
+                    
+
+
+                   <form class="form" name="collegeForm" ng-submit="submit()" novalidate>
+                        <div class="alert alert-danger" ng-show="form.show && !form.success">
+                                {{form.message}}
+                            </div>
+                        
+                            <div class="alert alert-success" ng-show="form.show && form.success">
+                                {{form.message}}
+                            </div>
+            <div class="modal-body">
+                    <div class="form-group row">
+                            <label style="text-align: left; width:144px;">First Name<font color="red">*</font></label>
+                            <div class="col-lg-9">
+                                <input class="form-control" type="text" name="firstName" ng-model="form.firstName" ng-pattern="/^[a-zA-Z]{2,15}$/" required required ng-class="{'is-invalid':collegeForm.firstName.$error.required && collegeForm.firstName.$touched}">
+                                <span  ng-show="collegeForm.firstName.$error.pattern">Invalid First Name!</span>
+                                <span ng-show="collegeForm.firstName.$error.required && collegeForm.firstName.$touched" class="form-text text-danger">First Name is required!</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label style="text-align: left; width:144px;">Last Name<font color="red">*</font></label>
+                            <div class="col-lg-9">
+                                <input class="form-control" type="text" name="lastName" ng-model="form.lastName" ng-pattern="/^[a-zA-Z]{2,15}$/" required required ng-class="{'is-invalid':collegeForm.lastName.$error.required && collegeForm.lastName.$touched}">
+                                <span  ng-show="collegeForm.lastName.$error.pattern">Invalid First Name!</span>
+                                <span ng-show="collegeForm.lastName.$error.required && collegeForm.lastName.$touched" class="form-text text-danger">Last Name is required!</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label style="text-align: left; width:144px;">UserName<font color="red">*</font></label>
+                            <div class="col-lg-9">
+                                <input class="form-control" type="email" name="login" ng-model="form.login" ng-pattern="/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/" required required ng-class="{'is-invalid':collegeForm.login.$error.required && collegeForm.login.$touched}">
+                                <span  ng-show="collegeForm.login.$error.pattern">Invalid Email Name!</span>
+                                <span ng-show="collegeForm.login.$error.required && collegeForm.login.$touched" class="form-text text-danger">Email Id is required!</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                                <label style="text-align: left; width:144px;">Password<font color="red">*</font></label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="password" name="password" ng-model="form.password" ng-pattern="/^([a-zA-Z0-9@*#]{8,15})$/" required ng-class="{'is-invalid':collegeForm.password.$error.required && collegeForm.password.$touched}">
+                                    <span  ng-show="collegeForm.password.$error.pattern">Invalid Password!</span>
+                                    <span ng-show="collegeForm.password.$error.required && collegeForm.password.$touched" class="form-text text-danger">Password is required!</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label style="text-align: left; width:144px;">DOB<font color="red">*</font></label>
+                                    <div class="col-lg-9">
+                                        <datepicker date-format="y/MM/dd">
+                                            <input style="cursor: pointer" name="dob" type="text" ng-model="form.dob" class="form-control" placeholder="DD-MM-YYYY" readonly required ng-class="{'is-invalid':collegeForm.dob.$error.required && collegeForm.dob.$touched}">
+                                        </datepicker>
+                                        <span ng-show="collegeForm.dob.$error.required && collegeForm.dob.$touched" class="form-text text-danger">Dob is required!</span>
+                                    </div>
+                                    
+                            </div>
+                                <div class="form-group row">
+                                        <label style="text-align: left; width:144px;">Mobile No<font color="red">*</font></label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" type="text" name="mobileNo" ng-model="form.mobileNo" ng-pattern="/^[7-9][0-9]{9}$/" required required ng-class="{'is-invalid':collegeForm.mobileNo.$error.required && collegeForm.mobileNo.$touched}">
+                                            <span  ng-show="collegeForm.mobileNo.$error.pattern"><font color="red">Invalid Mobile Number!</font></span>
+                                            <span ng-show="collegeForm.mobileNo.$error.required && collegeForm.mobileNo.$touched" class="form-text text-danger">Mobile No is required!</span>
+                                        </div>
+            
+                                </div>
+                                <div class="form-group row">
+                                        <label style="text-align: left; width:144px;">Gender<font color="red">*</font></label>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="male" name="gender" type="radio" ng-model="form.gender" value="Male" required >
+                                            <label class="form-check-label" for="male">Male</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="female" type="radio" ng-model="form.gender" value="Female" required>
+                                            <label class="form-check-label" for="female">Female</label>
+                                        </div>
+                                        
+                                        <span ng-show="collegeForm.gender.$error.required && collegeForm.gender.$touched" class="form-text text-danger">Gender is required!</span>
+                                      
+                                    </div>
+                        <div class="form-group row">
+                            <div class="col-md-10 pull-right">
+                                    <button type="submit" class="btn btn-primary form-control" style="margin-left: 100px; width: 100px;" ng-click="collegeForm.$setUntouched();" ng-disabled="collegeForm.$invalid && collegeForm.$error">Register
+                                            <span class="fas fa-paper-plane"></span>
+                                        </button>
+                            </div>
+                        </div>
+            </div>
+        </form>
+
+
+            
+        </div>
+    </div>
+</div>
+</center>
+
+
+

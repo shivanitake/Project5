@@ -1,0 +1,203 @@
+ <style>
+       
+       
+        #customers {
+         border-collapse: collapse;
+            width: 90%;
+        }
+        
+        #customers td, #customers th {
+            border: 1px solid #A9A9A9;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            font-size: 20px;
+         /* 	background-color: #A9A9A9;  */
+            color: black;
+            
+        }
+        #custom {
+             border:0px;
+            width: 90%;
+            text-align: left;
+             
+        }
+        #custom td, #custom th {
+            
+            padding: 8px;
+            text-align: left;
+        }
+
+    
+    .modal-body
+    {
+        margin-left: 130px;
+        margin-top: 30px;
+
+    }
+
+        
+</style>
+
+
+        <div class="container">
+        <div>
+        <div>
+            <H2>Get Marksheet</H2>
+        </div>
+        
+      <form class="form" ng-submit="displayRollNo(form.rollNo)">
+            <div class="alert alert-danger" ng-show="form.show && !form.success">
+                    {{form.message}}
+                </div>
+            
+                <div class="alert alert-success" ng-show="form.show && form.success">
+                    {{form.message}}
+                </div>
+                
+            
+    
+        <div class="form-group row">
+            <div class="col-lg-3">
+                <input class="form-control" type="text" ng-model="form.rollNo" placeholder="RollNo">
+            </div>
+            
+            
+                    <div class="col-lg-2" >
+                            <button type="submit" class="btn btn-primary form-control">Submit
+                                
+                            </button>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <button type="submit" class="btn btn-primary form-control" ng-click="resetForm()">Reset
+                                
+                            </button>
+                         </div>
+           
+        </div>
+    </form>
+    </div>
+      
+           
+       
+    
+
+
+<!-- Marsheet View -->
+
+       
+                
+<form class="form" name="collegeForm" ng-submit="submit()" ng-show="form.id>0">
+
+    <div class="modal-body">
+        <div class="row">
+         <div class="col-sm-10">
+                <div class="card" style="border: 3px solid #f1f1f1; width: 800px;">
+                        <div class="card-header ">
+                                <h2>Marksheet</h2>
+                            </div>
+                        
+                        <div class="card-body" align="center">
+                        <table class="table table-sm table-bordered table-hover table-responsive-sm">    
+            <table id="custom">
+
+                   
+                    <tr>
+                        <td><label><b>Name:</b></label>&emsp;&emsp;&emsp;<b>{{form.name}}</b></td>
+                        
+                    </tr>
+                        <tr><td align="Left" width="20%"><label><b>Roll No:</b></label>&emsp;&emsp;&emsp;<b>{{form.rollNo}}</b></td></tr>
+                    
+            </table>
+                
+            <table id="customers">
+                
+                    <tr>
+                        <th>Subject</th>
+                        <th>Maximum Mark</th>
+                        <th>Minimum Mark</th>
+                        <th>Obtained Mark</th>
+                    </tr>
+                    <tr>
+                        <td align="center">Physics</td>
+                        <td align="center">100</td>
+                        <td align="center">35</td>
+                        <td ng-style="form.physics < 35 ? {'color': 'red'} : {'color': 'black'}" align="center">
+                            {{form.physics}}</td>
+                    </tr>
+                    <tr>
+                        <td align="center">Chemistry</td>
+                        <td align="center">100</td>
+                        <td align="center">35</td>
+                        <td ng-style="form.chemistry < 35 ? {'color': 'red'} : {'color': 'black'}" align="center">
+                            {{form.chemistry}}</td>
+                    </tr>
+                    <tr>
+                        <td align="center">Maths</td>
+                        <td align="center">100</td>
+                        <td align="center">35</td>
+                        <td ng-style="form.maths < 35 ? {'color': 'red'} : {'color': 'black'}" align="center">{{form.maths}}
+                            </td>
+                    </tr>
+                    <tr>
+                        <td align="center"><b>Total</b></td>
+                        <td align="center"><b>300</b></td>
+                        <td></td>
+                        <td align="center">{{form.physics+form.maths+form.chemistry}}</td>
+                    </tr>
+            </table>
+                <br>
+            <table id="customers">
+                    <tr>
+                        <th >Result:</th>
+                        <div>
+                        <td ng-if="(form.physics >=35 && form.chemistry >=35 && form.maths >=35)"><font color="green">PASS</font></td>
+                                            
+                        <td ng-if="!(form.physics >=35 && form.chemistry >=35 && form.maths >=35)"><font color="red">FAIL</font></td>            
+                        </div>
+
+                      
+                        <th>Grade:</th>
+                        <div>
+                        <td ng-if="(form.physics >=35 && form.chemistry >=35 && form.maths >=35)&& ((form.physics+form.chemistry+form.maths)>=195)"><font color="green">A</font></td>
+                        <td ng-if="(form.physics >=35 && form.chemistry >=35 && form.maths >=35)&& (195>(form.physics+form.chemistry+form.maths)) && ((form.physics+form.chemistry+form.maths)>=150) "><font color="green">B</font></td>
+                        <td ng-if="(form.physics >=35 && form.chemistry >=35 && form.maths >=35)&& (150>(form.physics+form.chemistry+form.maths))"><font color="green">C</font></td>
+                        <td ng-if="!(form.physics >=35 && form.chemistry >=35 && form.maths >=35)"><font color="red">D</font></td>
+                        </div>
+                        
+                            
+                        
+                        <th>Percentage:</th>
+
+                        <td ng-style="(((form.physics+form.chemistry+form.maths)/300*100)| number:2) <= 35 ? {'color': 'red'} : {'color': 'black'}" align="center">{{((form.physics+form.chemistry+form.maths)/300*100)| number:2}}%</td>
+                    </tr>
+                </table>
+
+                </table>
+        
+</div>
+            </div>   
+            </div>
+
+        </div>
+    </div>
+    </form>
+    
+
+    <!-- End  Marksheet View -->
+    
+   
+    </div>
+
+
+
+
+    
+     

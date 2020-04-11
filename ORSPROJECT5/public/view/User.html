@@ -1,0 +1,246 @@
+<style>
+     .form
+    {
+        
+        text-align: left;
+    }
+     
+</style>
+
+    
+<div class="container">
+
+    <div>
+        <H2>User</H2>
+    </div>
+
+    <div class="alert alert-danger" ng-show="searchForm.show">
+        {{searchForm.message}}
+    </div>
+
+    <div class="form-group row">
+  
+            
+        <div class="col-lg-3">
+            <select class="form-control"  ng-model="searchForm.roleId" ng-options="r.id as r.name for r in rolelist">
+                <option value="">----------Select Role---------</option>
+            </select>
+        </div>
+        
+        <div class="col-lg-3">
+            <input class="form-control" type="text" ng-model="searchForm.login" placeholder="Login">
+        </div>
+        
+        <div class="col-lg-1">
+            <button class="btn btn-primary" ng-click="search()" style="width: 100px; ">Search
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-success " data-target="#update" style="width: 100px; margin-left: 345px;" data-toggle="modal" ng-click="display()">Add
+                <i class="fas fa-plus-circle"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-sm table-bordered table-hover table-responsive-sm">
+                <thead class="thead-dark">
+                    <th scope="row">S.NO.</th>
+                    <th scope="row">Photo</th>
+                    <th scope="row">FIRST NAME
+                    </th>
+                    <th scope="row">LAST NAME
+                    </th>
+                    <th scope="row">LOGIN ID
+                    </th>
+                   
+                    <th scope="row">DOB
+                    </th>
+                    <th scope="row">MOBILE NO
+                    </th>
+                    <!-- <th scope="row">ROLE ID
+                    </th> -->
+                    <th scope="row">ROLE
+                    </th>
+                    <th scope="row">GENDER
+                    </th>
+                    <th scope="row">ACTION</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="data in list">
+                        <td>{{(searchForm.pageNo*10)+$index+1}}</td>
+                        <td>
+                            <img height="75px" src="User/getPic/{{data.id}}">
+                        </td>
+                        <td>{{data.firstName}}</td>
+                        <td>{{data.lastName}}</td>
+                        <td>{{data.login}}</td>
+                        
+                        <td>{{data.dob | date : "y/MM/dd"}}</td>
+                        <td>{{data.mobileNo}}</td>
+                        <!-- <td>{{data.roleId}}</td> -->
+                        <td>{{data.role}}</td>
+                        <td>{{data.gender}}</td>
+                        <td>
+                            <button type="button" ng-click="display(data.id)" data-target="#update" ng-disabled="data.roleId==1" data-toggle="modal" class="btn btn-primary">
+                                <i class="fas fa-edit">
+                                </i>
+                            </button>
+                            <button type="button" ng-click="delete(data.id)" ng-confirm-click="Are you sure?" ng-disabled="data.roleId==1" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                        </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="border: 3px solid #f1f1f1; border-radius: 10px;">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title ">User Information</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="form" name="userForm" ng-submit="submit()" novalidate>
+
+                        <div class="alert alert-danger" ng-show="form.show && !form.success">
+                            {{form.message}}
+                        </div>
+                        <div class="alert alert-success" ng-show="form.show && form.success">
+                            {{form.message}}
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">First Name<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="firstName" ng-pattern="/^[a-zA-Z]{2,15}$/" ng-class="{'is-invalid':userForm.firstName.$error.required && userForm.firstName.$touched}" placeholder="Enter First Name" ng-minlength="3" ng-maxlength="8" ng-model="form.firstName" required>
+                                    <span class="form-text text-danger" ng-show="userForm.firstName.$error.required && userForm.firstName.$touched " id="firstName">First Name is required.</span>
+                                    <span class="form-text text-danger" id="firstName" ng-show="userForm.firstName.$error.pattern">First Name is invalid.</span>                                     
+                                </div>
+                                                                
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Last Name<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="lastName" ng-pattern="/^[a-zA-Z]{2,15}$/" ng-class="{'is-invalid':userForm.lastName.$error.required && userForm.lastName.$touched}" ng-minlength="3" ng-maxlength="8" placeholder="Enter Last Name" ng-model="form.lastName" required>
+                                    <span class="form-text text-danger" ng-show="userForm.lastName.$error.required && userForm.lastName.$touched " id="lastName">Last Name is required.</span>
+                                    <span class="form-text text-danger" id="lastName" ng-show="userForm.lastName.$error.pattern">Last Name is invalid.</span>                                     
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Login<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="email" name="login" ng-pattern="/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/" ng-class="{'is-invalid':userForm.login.$error.required && userForm.login.$touched}" placeholder="Enter Login ID" ng-model="form.login" ng-disabled="form.id>0" required>
+                                    <span  ng-show="userForm.login.$error.pattern" class="form-text text-danger">Login Id is invalid</span>
+                                    <span class="form-text text-danger" ng-show="userForm.login.$error.required && userForm.login.$touched" class="form-text text-danger">Login Id is required</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Password<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="password" name="password" ng-pattern="/^([a-zA-Z0-9@*#]{8,15})$/" ng-class="{'is-invalid':userForm.password.$error.required && userForm.password.$touched}" placeholder="Enter Password" ng-model="form.password" required>
+                                    <span class="form-text text-danger" ng-show="userForm.password.$error.pattern">Password is invalid</span>
+                                    <span class="form-text text-danger" ng-show="userForm.password.$error.required && userForm.password.$touched">Password is required.</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Date Of Birth<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <datepicker date-format="y/MM/dd">
+                                        <input style="cursor: pointer" name="dob" type="text" ng-class="{'is-invalid':userForm.dob.$error.required && userForm.dob.$touched}" ng-model="form.dob" class="form-control" placeholder="DD-MM-YYYY" readonly required/>
+                                    </datepicker>
+                                    <span class="form-text text-danger" ng-show="userForm.dob.$error.required && userForm.dob.$touched " id="dob">DOB is required.</span>                                 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Mobile<font color="red">*</font></label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" name="mobileNo" ng-maxlength="10" ng-pattern="/^[7-9][0-9]{9}$/" ng-class="{'is-invalid':userForm.mobileNo.$error.required && userForm.mobileNo.$touched}" placeholder="Enter Mobile No" ng-model="form.mobileNo" required>
+                                    <span  ng-show="userForm.mobileNo.$error.pattern" class="form-text text-danger">Mobile Number is invalid</span>
+                                    <span class="form-text text-danger" ng-show="userForm.mobileNo.$error.required && userForm.mobileNo.$touched" id="mobileNo" class="form-text text-danger">Mobile No.is required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Role<font color="red">*</font> </label>
+                                <div class="col-lg-9">
+                                    <select class="form-control" name="role" required ng-class="{'is-invalid':userForm.role.$error.required && userForm.role.$touched}" ng-model="form.roleId" ng-options="r.id as r.name for r in rolelist" ng-disabled="form.id>0">
+                                        <option value="">------------select------------</option>
+                                    </select>
+                                    <span class="form-text text-danger" ng-show="userForm.role.$error.required && userForm.role.$touched">Role is required.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Gender<font color="red">*</font> </label>
+                                &nbsp;&nbsp;&nbsp;
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" name="gender" required id="male" type="radio" ng-model="form.gender" value="Male">
+                                    <label class="form-check-label" for="male">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" required id="female" type="radio" ng-model="form.gender" value="Female">
+                                    <label class="form-check-label" for="female">Female</label>
+                                </div>
+                                <span class="form-text text-danger" ng-show="userForm.gender.$error.required && userForm.gender.$touched">Gender is required.</span>
+                            </div>
+                            <div class="form-group row" ng-show="form.id>0">
+
+                                <label class="col-lg-3 form-control-label">Picture<font color="red">*</font></label>
+                                <div class="col-lg-9">
+                                    
+                                        <img height="100px" ng-src="User/getPic/{{form.id}}">
+        
+                                        <input class="form-control" type="file" file-model="files.pic">
+    
+                                       
+
+                                   
+                                    <center>
+                                    <button type="button" ng-click="uploadPic(form.id)" style="width: 100px; margin-top: 10px;" class="btn btn-primary form-control">
+                                            Upload
+                                    </button>
+                                </center>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <center>
+                                <div >
+                                    <button type="submit" class="btn btn-primary form-control" ng-disabled="userForm.$invalid && userForm.$error" ng-hide="form.id>0" style="margin-left: 150px; width: 100px;">Save
+                                        <span class="fas fa-paper-plane"></span>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary form-control" ng-show="form.id>0" style="margin-left: 190px; width: 100px;">Update
+                                            <span class="fas fa-paper-plane"></span>
+                                    </button>
+                                    <button type="reset" class="btn btn-primary form-control" ng-hide="form.id>0" style="width: 100px;">Reset
+                                    </button>                    
+                                </div>
+                                </center>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div>
+            <button class="btn btn-primary" style="margin-left: 15px; width: 100px;" ng-disabled="previousDisable()" ng-click="previous()">
+                Previous
+            </button>
+            <button class="btn btn-primary" style="margin-left: 907px; width: 100px;" ng-disabled="nextDisable()" ng-click="next()">
+                    Next
+            </button>
+        </div>
+        
+    </div>
+</div>
+</center>
